@@ -4,7 +4,18 @@
     <title>Mandelbrot</title>
   </head>
   <body>
+    <canvas
+      id='canvas'
+      width=600 height=400
+      -style='width: 100px; height: 100px;'>
+    </canvas>
+
     <script>
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var width = canvas.width;
+      var height = canvas.height;
+
       var module = {};
       var imports = {
         env: {
@@ -13,6 +24,13 @@
             var buf = module.instance.exports.memory.buffer;
             var u8 = new Uint8Array(buf, ptr, len);
             console.log("%s", String.fromCharCode.apply(null, u8));
+          },
+          blit: function(ptr, len) {
+            var buf = module.instance.exports.memory.buffer;
+            var usub = new Uint8ClampedArray(buf, ptr, len);
+            var img = new ImageData(usub, width, height);
+            console.log("%o", img);
+            ctx.putImageData(img, 0, 0);
           },
         },
       };
@@ -23,7 +41,7 @@
         WebAssembly.instantiate(bytes, imports)
       ).then(results => {
         module = results;
-        module.instance.exports.start();
+        module.instance.exports.render(width, height);
       });
     </script>
   </body>
