@@ -1,0 +1,9 @@
+[package]
+name = "mandelbrot"
+version = "0.1.0"
+authors = ["Sune Kirkeby <mig@ibofobi.dk>"]
+
+[dependencies]
+num-complex = "*"
+sdl2 = "*"
+threadpool = "*"

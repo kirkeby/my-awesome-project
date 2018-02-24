@@ -1,0 +1,7 @@
+# Editor gunk.
+*~
+*.swp
+
+# Rust gunk.
+target/
+Cargo.lock
