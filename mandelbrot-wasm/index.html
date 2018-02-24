@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mandelbrot</title>
+  </head>
+  <body>
+    <script>
+      var module = {};
+      var imports = {
+        env: {
+          log: function(ptr, len) {
+            // Note: Only works for ASCII. Which is fine here and now.
+            var buf = module.instance.exports.memory.buffer;
+            var u8 = new Uint8Array(buf, ptr, len);
+            console.log("%s", String.fromCharCode.apply(null, u8));
+          },
+        },
+      };
+
+      fetch('mandelbrot_wasm.wasm').then(response =>
+        response.arrayBuffer()
+      ).then(bytes =>
+        WebAssembly.instantiate(bytes, imports)
+      ).then(results => {
+        module = results;
+        module.instance.exports.start();
+      });
+    </script>
+  </body>
+</html>

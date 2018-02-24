@@ -1,0 +1,14 @@
+[package]
+name = "mandelbrot-wasm"
+version = "0.1.0"
+authors = ["Sune Kirkeby <mig@ibofobi.dk>"]
+
+# Incremental builds are incredibly broken on nightly when targetting
+# wasm32-unknown-unknown
+[profile.dev]
+incremental = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
